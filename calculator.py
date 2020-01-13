@@ -1,15 +1,20 @@
 from tkinter import *
 class Calculator:
-
+    #Constructor to build all the buttons
     def __init__(self):
+        #to check whether the calculator is displaying a result or not
         self.answerstate=False
         self.Ans=0
+        
+        # to initialize the tkinter gui
         self.root=Tk()
         self.root.title("Calculator")
-
+        
+        # The number display whehn inputting values
         self.TextEntry=Entry(self.root,text=" ")
         self.TextEntry.grid(row=0,columnspan=8,padx=10,pady=4)
-
+        
+        # adding all the buttons and arranging them in a grid
         self.LPar=Button(self.root,text="(",width=7,height=1,command=lambda:self.changeEntry("("))
         self.LPar.grid(row=1,column=0)
         self.RPar=Button(self.root,text=")",width=7,height=1,command=lambda:self.changeEntry(")"))
@@ -52,16 +57,26 @@ class Calculator:
         self.Plus.grid(row=5,column=3)
 
     def changeEntry(self,val:str):
+        # first must check the state of the calculator
+        # if the answerstate is true it means the the calculator is currently
+        # displaying the result
         if self.answerstate:
             exp=""
             self.answerstate=False
+        # get the current displayed value 
         else:
             exp = self.TextEntry.get()
-
+        
+        # clear the display
         self.TextEntry.delete(0, END)
+        
+        # clear the display
         if val=="AC":
             return
+        # evaluate display using python's buildin eval expression function
         elif val=="=":
+            # catch any exception
+            # one exception to occur would be if two operators are right next to each other
             try:
                 answer=eval(exp)
                 self.TextEntry.insert(0,answer)
@@ -69,6 +84,7 @@ class Calculator:
             except:
                 self.TextEntry.insert(0,exp)
             self.answerstate=True
+        # otherwise add need input answer to display
         else:
             self.TextEntry.insert(0,exp+val)
 
